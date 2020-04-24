@@ -1,0 +1,36 @@
+{
+  "name": "@cprecioso/canvas-text-layout",
+  "version": "0.0.0",
+  "description": "A mini text layout engine for canvas",
+  "keywords": [
+    "canvas",
+    "text",
+    "layout",
+    "multiline"
+  ],
+  "homepage": "https://github.com/cprecioso/canvas-text-layout#readme",
+  "bugs": {
+    "url": "https://github.com/cprecioso/canvas-text-layout/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cprecioso/canvas-text-layout.git"
+  },
+  "license": "MIT",
+  "author": "Carlos Precioso <kalprestito@gmail.com>",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "prepare": "rollup -c"
+  },
+  "devDependencies": {
+    "@cprecioso/tsconfig": "^0.0.4",
+    "@wessberg/rollup-plugin-ts": "^1.2.24",
+    "rollup": "^2.7.2",
+    "typescript": "^3.8.3"
+  }
+}
