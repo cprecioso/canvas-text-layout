@@ -1,6 +1,6 @@
 // @ts-check
 
-import ts from "@wessberg/rollup-plugin-ts"
+import ts from "@wessberg/rollup-plugin-ts";
 
 export default /** @type {import("rollup").RollupOptions} */ ({
   input: "src/index.ts",
@@ -13,4 +13,4 @@ export default /** @type {import("rollup").RollupOptions} */ ({
       typescript: require("typescript"),
     }),
   ],
-})
+});

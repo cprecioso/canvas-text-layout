@@ -1,5 +1,5 @@
-import { BlockLayout } from "../layout/block"
-import { LineLayout } from "../layout/line"
+import { BlockLayout } from "../layout/block";
+import { LineLayout } from "../layout/line";
 
 export enum Alignment {
   Start = "left",
@@ -10,17 +10,17 @@ export enum Alignment {
 export const applyAlignment = (
   contentSize: number,
   containerSize: number,
-  alignment: Alignment
+  alignment: Alignment,
 ) => {
   switch (alignment) {
     case Alignment.Start:
-      return 0
+      return 0;
     case Alignment.Middle:
-      return containerSize / 2 - contentSize / 2
+      return containerSize / 2 - contentSize / 2;
     case Alignment.End:
-      return containerSize - contentSize
+      return containerSize - contentSize;
   }
-}
+};
 
 export enum Origin {
   Top = 0b00,
@@ -34,25 +34,25 @@ export const applyOrigin = (
   y: number,
   w: number,
   h: number,
-  origin: Origin
+  origin: Origin,
 ) => ({
   x: x - (origin & Origin.Right ? w : 0),
   y: y - (origin & Origin.Bottom ? h : 0),
-})
+});
 
 export interface CommonDrawingInputOptions {
-  horizontalAlignment: Alignment
-  verticalAlignment: Alignment
-  x: number
-  y: number
-  containerWidth: number
-  containerHeight: number
-  origin: Origin
+  horizontalAlignment: Alignment;
+  verticalAlignment: Alignment;
+  x: number;
+  y: number;
+  containerWidth: number;
+  containerHeight: number;
+  origin: Origin;
 }
 
 export const parseCommonDrawingOptions = (
   layout: LineLayout | BlockLayout,
-  options: Partial<CommonDrawingInputOptions> = {}
+  options: Partial<CommonDrawingInputOptions> = {},
 ): CommonDrawingInputOptions => {
   const {
     horizontalAlignment,
@@ -67,20 +67,20 @@ export const parseCommonDrawingOptions = (
     containerHeight: layout.height,
     origin: Origin.Top | Origin.Left,
     ...options,
-  }
+  };
 
   const { x: originX, y: originY } = applyOrigin(
     options.x ?? 0,
     options.y ?? 0,
     containerWidth,
     containerHeight,
-    options.origin ?? Origin.Top | Origin.Left
-  )
+    options.origin ?? Origin.Top | Origin.Left,
+  );
 
   const x =
-    originX + applyAlignment(layout.width, containerWidth, horizontalAlignment)
+    originX + applyAlignment(layout.width, containerWidth, horizontalAlignment);
   const y =
-    originY + applyAlignment(layout.height, containerHeight, verticalAlignment)
+    originY + applyAlignment(layout.height, containerHeight, verticalAlignment);
 
   return {
     horizontalAlignment,
@@ -90,5 +90,5 @@ export const parseCommonDrawingOptions = (
     origin,
     x,
     y,
-  }
-}
+  };
+};
