@@ -1,5 +1,4 @@
-import { BlockLayout } from "../layout/block";
-import { LineLayout } from "../layout/line";
+import { BlockLayout, LineInBlock } from "../layout/block";
 
 export enum Alignment {
   Start = "left",
@@ -51,7 +50,7 @@ export interface CommonDrawingInputOptions {
 }
 
 export const parseCommonDrawingOptions = (
-  layout: LineLayout | BlockLayout,
+  layout: LineInBlock | BlockLayout,
   options: Partial<CommonDrawingInputOptions> = {},
 ): CommonDrawingInputOptions => {
   const {

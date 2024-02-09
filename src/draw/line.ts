@@ -1,4 +1,4 @@
-import { LineLayout } from "../layout/line";
+import { LineInBlock } from "../layout/block";
 import { CommonDrawingInputOptions, parseCommonDrawingOptions } from "./common";
 
 export interface LineLayoutDrawOptions extends CommonDrawingInputOptions {
@@ -7,7 +7,7 @@ export interface LineLayoutDrawOptions extends CommonDrawingInputOptions {
 
 export const _drawLineLayout = (
   ctx: CanvasRenderingContext2D,
-  lineLayout: LineLayout,
+  lineLayout: LineInBlock,
   options: LineLayoutDrawOptions,
 ) => {
   ctx.fillText(lineLayout.text, options.x, options.y);
@@ -15,7 +15,7 @@ export const _drawLineLayout = (
 
 export const drawLineLayout = (
   ctx: CanvasRenderingContext2D,
-  lineLayout: LineLayout,
+  lineLayout: LineInBlock,
   options?: Partial<LineLayoutDrawOptions>,
 ) => {
   const _options = parseCommonDrawingOptions(lineLayout, options);
