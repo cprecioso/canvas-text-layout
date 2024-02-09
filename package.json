@@ -50,5 +50,6 @@
     "prettier-plugin-sh": "^0.14.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
-  }
+  },
+  "sideEffects": false
 }
