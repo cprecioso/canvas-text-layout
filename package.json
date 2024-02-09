@@ -30,6 +30,10 @@
   "devDependencies": {
     "@cprecioso/tsconfig": "^0.0.4",
     "@wessberg/rollup-plugin-ts": "^1.2.24",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-pkg": "^0.18.1",
+    "prettier-plugin-sh": "^0.14.0",
     "rollup": "^2.7.2",
     "typescript": "^3.8.3"
   },
