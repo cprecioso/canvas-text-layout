@@ -12,7 +12,7 @@ export interface BlockLayoutDrawOptions
   lineOptions?: Partial<LineLayoutDrawOptions>;
 }
 
-export const _drawBlockLayout = (
+const _drawBlockLayout = (
   ctx: CanvasRenderingContext2D,
   blockLayout: BlockLayout,
   options: BlockLayoutDrawOptions,
