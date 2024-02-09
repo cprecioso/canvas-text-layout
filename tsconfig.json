@@ -1,5 +1,5 @@
 {
-  "extends": "@cprecioso/tsconfig/esm",
+  "extends": "@cprecioso/tsconfig/bundler",
   "include": ["src/**/*"],
   "compilerOptions": {
     "target": "ES2017",

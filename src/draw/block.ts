@@ -5,7 +5,7 @@ import {
   Origin,
   parseCommonDrawingOptions,
 } from "./common";
-import { drawLineLayout, LineLayoutDrawOptions } from "./line";
+import { LineLayoutDrawOptions, drawLineLayout } from "./line";
 
 export interface BlockLayoutDrawOptions
   extends Omit<CommonDrawingInputOptions, "width" | "height"> {
