@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "basePath": "./",
+  "excludeInternal": true,
+  "out": "./out-docs",
+  "cleanOutputDir": true
+}

@@ -21,10 +21,8 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       },
-      "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "types": "dist/index.d.ts",
@@ -39,6 +37,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "build-docs": "typedoc",
     "prepack": "tsup",
     "watch": "tsup --watch"
   },
@@ -52,6 +51,7 @@
     "prettier-plugin-pkg": "^0.18.1",
     "prettier-plugin-sh": "^0.14.0",
     "tsup": "^8.0.1",
+    "typedoc": "^0.25.8",
     "typescript": "^5.3.3"
   },
   "sideEffects": false
