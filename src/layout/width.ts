@@ -1,21 +1,25 @@
 import * as lazy from "../util/lazy";
-import { Context } from "./types";
 
-export const checkWidth = (text: string, { ctx, maxWidth }: Context) => {
+export const checkWidth = (
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+) => {
   const { width } = ctx.measureText(text);
   const fits = width <= maxWidth;
   return { width, fits };
 };
 
 export const getGoodSplit = (
+  ctx: CanvasRenderingContext2D,
   splits: Iterable<[head: string, tail?: string]>,
-  { ctx, maxWidth }: Context,
+  maxWidth: number,
 ) =>
   lazy
     .from(splits)
     .pipe(
       lazy.map(([lineText, rest]) => {
-        const { fits, width } = checkWidth(lineText, { ctx, maxWidth });
+        const { fits, width } = checkWidth(ctx, lineText, maxWidth);
         return { lineText, rest, width, fits };
       }),
     )
