@@ -29,7 +29,7 @@
   },
   "types": "dist/index.d.ts",
   "files": [
-    "dist/*"
+    "dist"
   ],
   "keywords": [
     "canvas",
@@ -41,6 +41,9 @@
     "build": "tsup",
     "prepack": "tsup",
     "watch": "tsup --watch"
+  },
+  "dependencies": {
+    "@cprecioso/iterable-helpers": "^1.0.1"
   },
   "devDependencies": {
     "@cprecioso/tsconfig": "^2.0.1",

@@ -1,4 +1,4 @@
-import * as lazy from "../util/lazy";
+import * as it from "@cprecioso/iterable-helpers";
 
 export const checkWidth = (
   ctx: CanvasRenderingContext2D,
@@ -15,13 +15,13 @@ export const getGoodSplit = (
   splits: Iterable<[head: string, tail?: string]>,
   maxWidth: number,
 ) =>
-  lazy
-    .from(splits)
+  it
+    .lazy(splits)
     .pipe(
-      lazy.map(([lineText, rest]) => {
+      it.map(([lineText, rest]) => {
         const { fits, width } = checkWidth(ctx, lineText, maxWidth);
         return { lineText, rest, width, fits };
       }),
     )
-    .pipe(lazy.takeWhile(({ fits }) => fits))
-    .fold(lazy.last());
+    .pipe(it.takeWhile(({ fits }) => fits))
+    .fold(it.last());
