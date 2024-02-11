@@ -1,0 +1,70 @@
+on:
+  workflow_dispatch:
+  workflow_call:
+
+name: Publish
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: cprecioso/action-prepare-node@v1
+
+      # Build and upload code
+      - run: yarn pack -o package.tgz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package.tgz
+          path: package.tgz
+          if-no-files-found: error
+
+      # Build and upload docs
+      - run: yarn run build-docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./out-docs"
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: package.tgz
+
+      - run: npm install -g npm
+      - run: npm publish --provenance --access public package.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  publish-docs:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
