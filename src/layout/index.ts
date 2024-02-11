@@ -1,5 +1,5 @@
-import { SplitPosition, possibleSplits } from "./split";
-import { Context, LineLayout } from "./types";
+import { possibleSplits } from "./split";
+import { Context, LineInfo, SplitPosition } from "./types";
 import { checkWidth, getGoodSplit } from "./width";
 
 // All the possible splitters, in order of preference
@@ -37,10 +37,10 @@ const trySplitters = (text: string, { ctx, maxWidth }: Context) => {
   }
 };
 
-export const layoutLines = function* (
+const layoutLine = function* (
   text: string,
   { ctx, maxWidth }: Context,
-): Iterable<LineLayout> {
+): Iterable<LineInfo> {
   let currentLine: string | undefined = text;
   while (currentLine) {
     {
@@ -62,6 +62,15 @@ export const layoutLines = function* (
       yield { text: lineText, width };
       currentLine = rest; // Do again with the rest of the lines
     }
+  }
+};
+
+export const layoutLines = function* (
+  text: string,
+  { ctx, maxWidth }: Context,
+): Iterable<LineInfo> {
+  for (const line of text.split("\n")) {
+    yield* layoutLine(line, { ctx, maxWidth });
   }
 };
 

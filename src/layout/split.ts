@@ -1,9 +1,4 @@
-export enum SplitPosition {
-  LeftOfSplitter,
-  RightOfSplitter,
-  RemoveSplitter,
-  DuplicateSplitter,
-}
+import { SplitPosition } from "./types";
 
 const calculateSplit = (
   match: RegExpMatchArray,

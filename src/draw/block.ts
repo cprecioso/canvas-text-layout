@@ -1,44 +1,62 @@
-import { BlockLayout } from "../layout/block";
+import { LineInfo } from "../layout";
+import { getFontValues } from "../util/canvas-font";
+import { DrawLineOptions, drawLine } from "./line";
+import { transformPosition2D } from "./position-math";
 import {
-  Alignment,
-  CommonDrawingInputOptions,
-  Origin,
-  parseCommonDrawingOptions,
-} from "./common";
-import { LineLayoutDrawOptions, drawLineLayout } from "./line";
+  Axis,
+  Placement1D,
+  Placement2D,
+  Position2D,
+  placement1Dto2D,
+} from "./types";
 
-export interface BlockLayoutDrawOptions
-  extends Omit<CommonDrawingInputOptions, "width" | "height"> {
-  lineOptions?: Partial<LineLayoutDrawOptions>;
+export interface DrawLineBlockOptions extends DrawLineOptions {
+  textAlignment?: Placement1D;
 }
 
-const _drawBlockLayout = (
+export const drawLineBlock = (
   ctx: CanvasRenderingContext2D,
-  blockLayout: BlockLayout,
-  options: BlockLayoutDrawOptions,
-  lineOptions?: Partial<LineLayoutDrawOptions>,
+  lines_: Iterable<LineInfo>,
+  position: Position2D,
+  {
+    textAlignment = Placement1D.Start,
+    drawFn,
+    lineHeight = getFontValues(ctx).lineHeight,
+    alignment,
+    containerSize,
+    origin,
+  }: DrawLineBlockOptions = {},
 ) => {
-  let accY = options.y;
-  for (const line of blockLayout.lines) {
-    accY += line.height;
-    drawLineLayout(ctx, line, {
-      x: options.x,
-      y: accY,
-      origin: Origin.Top | Origin.Left,
-      containerHeight: blockLayout.height,
-      containerWidth: blockLayout.width,
-      verticalAlignment: Alignment.Start,
-      horizontalAlignment: options.horizontalAlignment,
-      ...lineOptions,
-    });
-  }
-};
+  const lines = Array.from(lines_);
 
-export const drawBlockLayout = (
-  ctx: CanvasRenderingContext2D,
-  blockLayout: BlockLayout,
-  options?: Partial<BlockLayoutDrawOptions>,
-) => {
-  const _options = parseCommonDrawingOptions(blockLayout, options);
-  return _drawBlockLayout(ctx, blockLayout, _options, options?.lineOptions);
+  const blockHeight = lineHeight * lines.length;
+  const blockWidth = lines.reduce(
+    (maxWidth, line) => Math.max(maxWidth, line.width),
+    0,
+  );
+
+  const { x: blockX, y: initialBlockY } = transformPosition2D(
+    position,
+    { width: blockWidth, height: blockHeight },
+    { alignment, containerSize, origin },
+  );
+
+  let accY = initialBlockY;
+  for (const line of lines) {
+    drawLine(
+      ctx,
+      line,
+      { x: blockX, y: accY },
+      {
+        drawFn,
+        lineHeight,
+        alignment:
+          Placement2D.Top | placement1Dto2D(textAlignment, Axis.Horizontal),
+        containerSize,
+        origin: Placement2D.TopLeft,
+      },
+    );
+
+    accY += lineHeight;
+  }
 };

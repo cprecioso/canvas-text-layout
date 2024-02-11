@@ -1,24 +1,35 @@
-import { LineInBlock } from "../layout/block";
-import { CommonDrawingInputOptions, parseCommonDrawingOptions } from "./common";
+import { LineInfo } from "../layout";
+import { getFontValues } from "../util/canvas-font";
+import {
+  TransformPosition2DOptions,
+  transformPosition2D,
+} from "./position-math";
+import { Position2D } from "./types";
 
-export interface LineLayoutDrawOptions extends CommonDrawingInputOptions {
-  drawFn?: typeof _drawLineLayout;
+const defaultDrawFn = CanvasRenderingContext2D.prototype.fillText;
+
+export interface DrawLineOptions extends TransformPosition2DOptions {
+  drawFn?: typeof defaultDrawFn;
+  lineHeight?: number;
 }
 
-export const _drawLineLayout = (
+export const drawLine = (
   ctx: CanvasRenderingContext2D,
-  lineLayout: LineInBlock,
-  options: LineLayoutDrawOptions,
+  { text, width }: LineInfo,
+  position: Position2D,
+  {
+    drawFn = defaultDrawFn,
+    lineHeight: height = getFontValues(ctx).lineHeight,
+    alignment,
+    containerSize,
+    origin,
+  }: DrawLineOptions = {},
 ) => {
-  ctx.fillText(lineLayout.text, options.x, options.y);
-};
-
-export const drawLineLayout = (
-  ctx: CanvasRenderingContext2D,
-  lineLayout: LineInBlock,
-  options?: Partial<LineLayoutDrawOptions>,
-) => {
-  const _options = parseCommonDrawingOptions(lineLayout, options);
-  const drawFn = options?.drawFn ?? _drawLineLayout;
-  return drawFn(ctx, lineLayout, _options);
+  const { x, y } = transformPosition2D(
+    position,
+    { width, height },
+    { alignment, containerSize, origin },
+  );
+  const maxWidth = containerSize?.width;
+  return drawFn.call(ctx, text, x, y, maxWidth);
 };
