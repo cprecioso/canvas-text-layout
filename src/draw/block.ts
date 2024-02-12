@@ -1,5 +1,4 @@
-import { LineInfo } from "../layout";
-import { getFontValues } from "../util/canvas-font";
+import { BlockInfo } from "../layout";
 import { DrawLineOptions, drawLine } from "./line";
 import { transformPosition2D } from "./position-math";
 import {
@@ -10,46 +9,52 @@ import {
   placement1Dto2D,
 } from "./types";
 
-export interface DrawLineBlockOptions extends DrawLineOptions {
+/**
+ * Options for {@link drawBlock}
+ *
+ * @group Draw
+ */
+export interface DrawBlockOptions extends DrawLineOptions {
+  /**
+   * Alignment of the text within the block
+   *
+   * @default Placement1D.Left
+   */
   textAlignment?: Placement1D;
 }
 
-export const drawLineBlock = (
+/**
+ * Takes a laid-out block of text lines from {@link layoutBlock},
+ * and draws it onto the canvas.
+ *
+ * @group Draw
+ */
+export const drawBlock = (
   ctx: CanvasRenderingContext2D,
-  lines_: Iterable<LineInfo>,
+  block: BlockInfo,
   position: Position2D,
   {
     textAlignment = Placement1D.Start,
     drawFn,
-    lineHeight = getFontValues(ctx).lineHeight,
     alignment,
     containerSize,
     origin,
-  }: DrawLineBlockOptions = {},
+  }: DrawBlockOptions = {},
 ) => {
-  const lines = Array.from(lines_);
-
-  const blockHeight = lineHeight * lines.length;
-  const blockWidth = lines.reduce(
-    (maxWidth, line) => Math.max(maxWidth, line.width),
-    0,
-  );
-
-  const { x: blockX, y: initialBlockY } = transformPosition2D(
-    position,
-    { width: blockWidth, height: blockHeight },
-    { alignment, containerSize, origin },
-  );
+  const { x: blockX, y: initialBlockY } = transformPosition2D(position, block, {
+    alignment,
+    containerSize,
+    origin,
+  });
 
   let accY = initialBlockY;
-  for (const line of lines) {
+  for (const line of block.lines) {
     drawLine(
       ctx,
       line,
       { x: blockX, y: accY },
       {
         drawFn,
-        lineHeight,
         alignment:
           Placement2D.Top | placement1Dto2D(textAlignment, Axis.Horizontal),
         containerSize,
@@ -57,6 +62,6 @@ export const drawLineBlock = (
       },
     );
 
-    accY += lineHeight;
+    accY += line.height;
   }
 };

@@ -1,10 +1,32 @@
+/**
+ * A point in 1D
+ *
+ * @group Utility types
+ */
 export type Position1D = number;
+
+/**
+ * A 2D point
+ *
+ * @group Utility types
+ */
 export interface Position2D {
   x: number;
   y: number;
 }
 
+/**
+ * A size in 1D
+ *
+ * @group Utility types
+ */
 export type Size1D = number;
+
+/**
+ * A 2D size
+ *
+ * @group Utility types
+ */
 export interface Size2D {
   width: number;
   height: number;
@@ -34,10 +56,25 @@ export interface Size2D {
   myPlacement2D = myPlacement1D << Axis.Horizontal -> Convert a 1D placement to a 2D placement
 */
 
+/**
+ * Represents an alignment or origin in 1D.
+ *
+ * `Top`, and `Left` are synonyms for each axis.
+ * `Bottom`, and `Right` are synonyms for each axis.
+ *
+ * @group Utility types
+ */
 export enum Placement1D {
-  Start = 1 << 0,
+  /** @internal */ Start = 1 << 0,
   Center = 1 << 1,
-  End = 1 << 2,
+  /** @internal */ End = 1 << 2,
+
+  // Shorthand values
+  Top = Start,
+  Bottom = End,
+
+  Left = Start,
+  Right = End,
 }
 
 /*
@@ -51,14 +88,19 @@ export enum Axis {
   Vertical = 1 * size,
 }
 
+/**
+ * Represents an alignment or origin in 2D.
+ *
+ * @group Utility types
+ */
 export enum Placement2D {
-  Top = Placement1D.Start << Axis.Vertical,
-  VerticalCenter = Placement1D.Center << Axis.Vertical,
-  Bottom = Placement1D.End << Axis.Vertical,
+  /** @internal */ Top = Placement1D.Start << Axis.Vertical,
+  /** @internal */ VerticalCenter = Placement1D.Center << Axis.Vertical,
+  /** @internal */ Bottom = Placement1D.End << Axis.Vertical,
 
-  Left = Placement1D.Start << Axis.Horizontal,
-  HorizontalCenter = Placement1D.Center << Axis.Horizontal,
-  Right = Placement1D.End << Axis.Vertical,
+  /** @internal */ Left = Placement1D.Start << Axis.Horizontal,
+  /** @internal */ HorizontalCenter = Placement1D.Center << Axis.Horizontal,
+  /** @internal */ Right = Placement1D.End << Axis.Vertical,
 
   // Shorthand values
   TopLeft = Top | Left,
@@ -66,7 +108,7 @@ export enum Placement2D {
   TopRight = Top | Right,
 
   CenterLeft = VerticalCenter | Left,
-  Center = VerticalCenter | HorizontalCenter,
+  CenterCenter = VerticalCenter | HorizontalCenter,
   CenterRight = VerticalCenter | Right,
 
   BottomLeft = Bottom | Left,
@@ -84,5 +126,3 @@ export const placement2Dto1D = (
   placement: Placement2D,
   axis: Axis,
 ): Placement1D => (placement >> axis) & mask;
-
-export enum Placement2D {}

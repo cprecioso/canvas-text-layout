@@ -1,7 +1,6 @@
-export { drawLineBlock, type DrawLineBlockOptions } from "./block";
+export { drawBlock, type DrawBlockOptions } from "./block";
 export { drawLine, type DrawLineOptions } from "./line";
 export {
-  Axis,
   Placement1D,
   Placement2D,
   type Position1D,

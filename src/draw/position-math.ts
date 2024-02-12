@@ -61,10 +61,24 @@ export const transformPosition1D = (
 };
 
 export interface TransformPosition2DOptions {
+  /**
+   * How to fit the content to be drawn inside its container
+   *
+   * @default Placement2D.TopLeft
+   */
   alignment?: Placement2D;
+  /**
+   * The size of the container where the content will be drawn
+   *
+   * @default {width: 0, height: 0}
+   */
   containerSize?: Partial<Size2D>;
+  /**
+   * Set the origin of the content inside its container
+   *
+   * @default Placement2D.TopLeft
+   */
   origin?: Placement2D;
-  position?: Partial<Position2D>;
 }
 
 export const transformPosition2D = (
