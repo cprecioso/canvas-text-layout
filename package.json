@@ -1,6 +1,6 @@
 {
   "name": "@cprecioso/canvas-text-layout",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A mini text layout engine for canvas",
   "repository": {
     "type": "git",
